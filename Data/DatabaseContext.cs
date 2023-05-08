@@ -22,19 +22,22 @@ namespace WhatsCookTodayApi.Data
             .HasMany(u => u.MyPrompts)
             .WithOne(t => t.User)
             .HasForeignKey(t => t.UserId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
 
             modelBuilder.Entity<User>()
             .HasMany(u => u.AIPrompts)
             .WithOne(t => t.User)
             .HasForeignKey(t => t.UserId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
 
             modelBuilder.Entity<MyPrompt>()
             .HasMany(u => u.AIPrompts)
             .WithOne(t => t.MyPrompt)
             .HasForeignKey(t => t.MyPromptId)
-            .OnDelete(DeleteBehavior.Restrict); // uygun olan hangisi bir araştır Restrict vs Cascade 
+            .OnDelete(DeleteBehavior.Restrict) // uygun olan hangisi bir araştır Restrict vs Cascade 
+            .IsRequired(false);
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WhatsCookTodayApi.MyModels;
 using WhatsCookTodayApi.Services.AIService;
+using WhatsCookTodayApi.Services.Abstracts;
+
 
 namespace WhatsCookTodayApi.Controllers
 {
@@ -9,16 +11,19 @@ namespace WhatsCookTodayApi.Controllers
     public class PromptController : ControllerBase
     {
         OpenAIPromptService _AIService;
+        IMyPromptService _myPromtService;
 
-        public PromptController(OpenAIPromptService openAIPromptService)
+        public PromptController(OpenAIPromptService aIService, IMyPromptService myPromtService)
         {
-            _AIService = openAIPromptService;
+            _AIService = aIService;
+            _myPromtService = myPromtService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostPrompt(MyPrompt myprompt)
+        public async Task<IActionResult> PostPrompt(string searchstring)
         {
-            string AIAnswer = await _AIService.GetAIAnswer(myprompt.Materials);
+          //  await _myPromtService.Add(myprompt);
+            string AIAnswer = await _AIService.GetAIAnswer(searchstring);
             return Ok(AIAnswer);
         }
     }

@@ -9,6 +9,7 @@ namespace WhatsCookTodayApi.MyModels
         public string Materials { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
-        public List<AIPrompt> AIPrompts { get; set; } = new List<AIPrompt>();
+        
+        public List<AIPrompt> AIPrompts { get; set; } 
     }
 }
