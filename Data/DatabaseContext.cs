@@ -12,7 +12,6 @@ namespace WhatsCookTodayApi.Data
         public DbSet<AIPrompt> AIPrompts { get; set; }
         public DbSet<MealOfDay> MealOfDays { get; set; }
         public DbSet<MyPrompt> MyPrompts { get; set; }
-        public DbSet<Slider> Sliders { get; set; }
         public DbSet<User> Users { get; set; }
 
 

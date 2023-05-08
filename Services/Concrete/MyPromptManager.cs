@@ -44,6 +44,11 @@ namespace WhatsCookTodayApi.Services.Concrete
             return myPrompt;
         }
 
+        public Task<IQueryable<MyPrompt>> GetListAllforUser(int UserId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task Update(MyPrompt entity)
         {
             await _repository.Update(entity);

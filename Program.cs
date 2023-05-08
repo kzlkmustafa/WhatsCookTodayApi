@@ -18,7 +18,6 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(EfRepository<>))
 builder.Services.AddScoped<IMyPromptService, MyPromptManager>();
 builder.Services.AddScoped<IAlPromptService, AIPromptManager>();
 builder.Services.AddScoped<IMealOfDayService, MealOfDayManager>();
-builder.Services.AddScoped<ISliderService, SliderManager>();
 builder.Services.AddScoped<IUserService, UserManager>();
 
 builder.Services.AddSwaggerGen(c =>

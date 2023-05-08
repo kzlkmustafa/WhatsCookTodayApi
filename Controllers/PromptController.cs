@@ -19,12 +19,46 @@ namespace WhatsCookTodayApi.Controllers
             _myPromtService = myPromtService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> PostPrompt(string searchstring)
+        [HttpPost("PostAI")]
+        public async Task<IActionResult> PostPrompt(string materials)
         {
-          //  await _myPromtService.Add(myprompt);
-            string AIAnswer = await _AIService.GetAIAnswer(searchstring);
+            string AIAnswer = await _AIService.GetAIAnswer(materials);
+            
             return Ok(AIAnswer);
+        }
+        [HttpPost("AddPrompt")]
+        public async Task<IActionResult> AddPrompt(string materials, int UserId)
+        {
+            MyPrompt newModel = new MyPrompt();
+            newModel.Materials = materials;
+            newModel.UserId = UserId;
+            await _myPromtService.Add(newModel);
+            return Ok();
+        }
+        [HttpGet("GetPrompt")]
+        public async Task<IActionResult> GetPrompt(int id)
+        {
+            var getprompt = await _myPromtService.GetById(id);
+            return Ok(getprompt);
+        }
+        [HttpGet("GetAllPromptForUser")]
+        public async Task<IActionResult> GetListAllWithUser(int UserId)
+        {
+            var getAll = await _myPromtService.GetListAllAsync();
+            return Ok(getAll);
+        }
+        [HttpDelete("DeletePrompt")]
+        public async Task<IActionResult> DeletePrompt(int id)
+        {
+            await _myPromtService.Delete(id);
+            return Ok();
+        }
+        [HttpPut("UpdatePrompt")]
+        public async Task<IActionResult> UpdatePrompt(int id)
+        {
+            var updateprompt = await _myPromtService.GetById(id);
+            await _myPromtService.Update(updateprompt);
+            return Ok();
         }
     }
 }
