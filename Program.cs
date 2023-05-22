@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using OpenAI.GPT3.Extensions;
+using WhatsCookTodayApi.Controllers;
 using WhatsCookTodayApi.Data;
 using WhatsCookTodayApi.Repository;
 using WhatsCookTodayApi.Services.Abstracts;
@@ -12,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<AIAnswerController>();
 
 builder.Services.AddScoped<OpenAIPromptService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(EfRepository<>));

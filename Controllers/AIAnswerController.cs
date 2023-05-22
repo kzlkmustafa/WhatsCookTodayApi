@@ -24,7 +24,7 @@ namespace WhatsCookTodayApi.Controllers
             var AllPrompt = await _myPromptService.GetListAllAsync();
             foreach (var item in AllPrompt)
             {
-                if(item.Materials == _promptmaterials)
+                if (item.Materials == _promptmaterials)
                 {
                     aIPrompt.MyPromptId = item.MyPromptId;
                 }
@@ -33,7 +33,7 @@ namespace WhatsCookTodayApi.Controllers
             aIPrompt.MyPromptsMaterials = _promptmaterials;
             aIPrompt.AIPromptRecipe = _AIAnswer;
             aIPrompt.UserId = _UserId;
-            
+
             await _alPromptService.Add(aIPrompt);
             return Ok();
         }
@@ -55,6 +55,12 @@ namespace WhatsCookTodayApi.Controllers
         {
             var getAllforuser = await _alPromptService.GetListAllForUser(UserId);
             return Ok(getAllforuser);
+        }
+        [HttpGet("GetAIAnswerForPrompt")]
+        public async Task<IActionResult> GetAIAnswerForPrompt(int PromptId)
+        {
+            var getAllforprompt = await _alPromptService.GetAIAnswerForPrompt(PromptId);
+            return Ok(getAllforprompt);
         }
 
         [HttpDelete("DeleteAIAnswer")]

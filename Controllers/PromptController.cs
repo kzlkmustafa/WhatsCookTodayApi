@@ -10,14 +10,15 @@ namespace WhatsCookTodayApi.Controllers
     [Route("[controller]")]
     public class PromptController : ControllerBase
     {
-        OpenAIPromptService _AIService;
-        IMyPromptService _myPromtService;
-        AIAnswerController _answerController;
+        private readonly OpenAIPromptService _AIService;
+        private readonly IMyPromptService _myPromtService;
+        private readonly AIAnswerController _answerController;
 
-        public PromptController(OpenAIPromptService aIService, IMyPromptService myPromtService)
+        public PromptController(OpenAIPromptService aIService, IMyPromptService myPromtService, AIAnswerController answerController)
         {
             _AIService = aIService;
             _myPromtService = myPromtService;
+            _answerController = answerController;
         }
 
         [HttpPost("PostAI")]
@@ -28,8 +29,8 @@ namespace WhatsCookTodayApi.Controllers
             await _answerController.AddAIAnswerPrompt(materials, AIAnswer, Userid);
             return Ok(AIAnswer);
         }
-        [HttpPost("AddPrompt")]
-        public async Task<IActionResult> AddPrompt(string materials, int UserId)
+        //[HttpPost("AddPrompt")]
+        private async Task<IActionResult> AddPrompt(string materials, int UserId)
         {
             MyPrompt newModel = new MyPrompt();
             newModel.Materials = materials;
