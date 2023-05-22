@@ -35,6 +35,13 @@ namespace WhatsCookTodayApi.Services.Concrete
             var aIPrompt = await _genericRepository.GetListAllAsync();
             return aIPrompt;
         }
+        public async Task<IQueryable<AIPrompt>> GetListAllForUser(int UserId)
+        {
+
+            var AllAIPrompt = await _genericRepository.GetListAllAsync();
+            var myAIPrompt = AllAIPrompt.Where(x => x.UserId == UserId);
+            return myAIPrompt;
+        }
 
         public async Task Update(AIPrompt entity)
         {
