@@ -42,11 +42,11 @@ namespace WhatsCookTodayApi.Services.Concrete
             var aIPrompt = await _genericRepository.GetListAllAsync();
             return aIPrompt;
         }
-        public async Task<IQueryable<AIPrompt>> GetListAllForUser(int UserId)
+        public async Task<IQueryable<AIPrompt>> GetListAllForUser(string UserId)
         {
 
             var AllAIPrompt = await _genericRepository.GetListAllAsync();
-            var myAIPrompt = AllAIPrompt.Where(x => x.UserId == UserId);
+            var myAIPrompt = AllAIPrompt.Where(x => x.Id == UserId);
             return myAIPrompt;
         }
 

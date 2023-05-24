@@ -22,7 +22,7 @@ namespace WhatsCookTodayApi.Controllers
         }
 
         [HttpPost("PostAI")]
-        public async Task<IActionResult> PostPrompt(string materials, int Userid)
+        public async Task<IActionResult> PostPrompt(string materials, string Userid)
         {
             string AIAnswer = await _AIService.GetAIAnswer(materials);
             await AddPrompt(materials, Userid);
@@ -30,11 +30,11 @@ namespace WhatsCookTodayApi.Controllers
             return Ok(AIAnswer);
         }
         //[HttpPost("AddPrompt")]
-        private async Task<IActionResult> AddPrompt(string materials, int UserId)
+        private async Task<IActionResult> AddPrompt(string materials, string UserId)
         {
             MyPrompt newModel = new MyPrompt();
             newModel.Materials = materials;
-            newModel.UserId = UserId;
+            newModel.Id = UserId;
             await _myPromtService.Add(newModel);
 
             return Ok();
@@ -54,7 +54,7 @@ namespace WhatsCookTodayApi.Controllers
             return Ok(getAll);
         }
         [HttpGet("GetAllPromptForUser")]
-        public async Task<IActionResult> GetListAllWithUser(int UserId)
+        public async Task<IActionResult> GetListAllWithUser(string UserId)
         {
             var getAllforuser = await _myPromtService.GetListAllForUser(UserId);
             return Ok(getAllforuser);

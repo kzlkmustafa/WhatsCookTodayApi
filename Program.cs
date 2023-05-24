@@ -4,6 +4,7 @@ using OpenAI.GPT3.Extensions;
 using WhatsCookTodayApi.Controllers;
 using WhatsCookTodayApi.Data;
 using WhatsCookTodayApi.Repository;
+using WhatsCookTodayApi.Services;
 using WhatsCookTodayApi.Services.Abstracts;
 using WhatsCookTodayApi.Services.AIService;
 using WhatsCookTodayApi.Services.Concrete;
@@ -15,13 +16,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<AIAnswerController>();
-
 builder.Services.AddScoped<OpenAIPromptService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(EfRepository<>));
 builder.Services.AddScoped<IMyPromptService, MyPromptManager>();
 builder.Services.AddScoped<IAlPromptService, AIPromptManager>();
 builder.Services.AddScoped<IMealOfDayService, MealOfDayManager>();
 builder.Services.AddScoped<IUserService, UserManager>();
+
+builder.Services.AddAuthentication();
+builder.Services.ConfigureIdentity();
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -55,6 +58,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

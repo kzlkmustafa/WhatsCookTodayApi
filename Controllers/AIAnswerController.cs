@@ -18,7 +18,7 @@ namespace WhatsCookTodayApi.Controllers
         }
 
         [HttpPost("AddAIAnswer")]
-        public async Task<IActionResult> AddAIAnswerPrompt(string _promptmaterials, string _AIAnswer, int _UserId)
+        public async Task<IActionResult> AddAIAnswerPrompt(string _promptmaterials, string _AIAnswer, string _UserId)
         {
             AIPrompt aIPrompt = new AIPrompt();
             var AllPrompt = await _myPromptService.GetListAllAsync();
@@ -32,7 +32,7 @@ namespace WhatsCookTodayApi.Controllers
 
             aIPrompt.MyPromptsMaterials = _promptmaterials;
             aIPrompt.AIPromptRecipe = _AIAnswer;
-            aIPrompt.UserId = _UserId;
+            aIPrompt.Id = _UserId;
 
             await _alPromptService.Add(aIPrompt);
             return Ok();
@@ -51,7 +51,7 @@ namespace WhatsCookTodayApi.Controllers
             return Ok(aIprompt);
         }
         [HttpGet("GetAllAIAnswerForUser")]
-        public async Task<IActionResult> GetListAllWithUser(int UserId)
+        public async Task<IActionResult> GetListAllWithUser(string UserId)
         {
             var getAllforuser = await _alPromptService.GetListAllForUser(UserId);
             return Ok(getAllforuser);

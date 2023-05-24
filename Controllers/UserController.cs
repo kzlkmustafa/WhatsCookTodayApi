@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using WhatsCookTodayApi.Services.Abstracts;
 
 namespace WhatsCookTodayApi.Controllers
@@ -14,7 +15,7 @@ namespace WhatsCookTodayApi.Controllers
         {
             _userService = userService;
         }
-        
+
         [HttpGet("GetUserInfo")]
         public async Task<IActionResult> GetUser(int UserId)
         {

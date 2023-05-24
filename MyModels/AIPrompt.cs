@@ -8,8 +8,8 @@ namespace WhatsCookTodayApi.MyModels
         public int AIPromptId { get; set; }
         public string MyPromptsMaterials { get; set; }
         public string AIPromptRecipe { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public string Id { get; set; }
+        public MyUsers User { get; set; }
         public int MyPromptId { get; set; }
         public MyPrompt MyPrompt { get; set; }
     }

@@ -44,11 +44,11 @@ namespace WhatsCookTodayApi.Services.Concrete
             return myPrompt;
         }
 
-        public async Task<IQueryable<MyPrompt>> GetListAllForUser(int UserId)
+        public async Task<IQueryable<MyPrompt>> GetListAllForUser(string UserId)
         {
             
             var AllPrompt = await _repository.GetListAllAsync();
-            var myPrompt = AllPrompt.Where(x => x.UserId == UserId);
+            var myPrompt = AllPrompt.Where(x => x.Id == UserId);
             return myPrompt;
         }
 

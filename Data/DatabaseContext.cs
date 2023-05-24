@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WhatsCookTodayApi.MyModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 namespace WhatsCookTodayApi.Data
 {
-    public class DatabaseContext : DbContext
+    public class DatabaseContext : IdentityDbContext<MyUsers>
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> opt) : base(opt)
         {
@@ -12,22 +14,24 @@ namespace WhatsCookTodayApi.Data
         public DbSet<AIPrompt> AIPrompts { get; set; }
         public DbSet<MealOfDay> MealOfDays { get; set; }
         public DbSet<MyPrompt> MyPrompts { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<MyUsers> Users { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<MyUsers>()
             .HasMany(u => u.MyPrompts)
             .WithOne(t => t.User)
-            .HasForeignKey(t => t.UserId)
+            .HasForeignKey(t => t.Id)
             .OnDelete(DeleteBehavior.Restrict)
             .IsRequired(false);
 
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<MyUsers>()
             .HasMany(u => u.AIPrompts)
             .WithOne(t => t.User)
-            .HasForeignKey(t => t.UserId)
+            .HasForeignKey(t => t.Id)   
             .OnDelete(DeleteBehavior.Restrict)
             .IsRequired(false);
 
