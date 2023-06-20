@@ -15,7 +15,7 @@ namespace WhatsCookTodayApi.Data
         public DbSet<MealOfDay> MealOfDays { get; set; }
         public DbSet<MyPrompt> MyPrompts { get; set; }
         public DbSet<MyUsers> Users { get; set; }
-
+        public DbSet<MyUserTokens> MyUserTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,14 +24,13 @@ namespace WhatsCookTodayApi.Data
             modelBuilder.Entity<MyUsers>()
             .HasMany(u => u.MyPrompts)
             .WithOne(t => t.User)
-            .HasForeignKey(t => t.Id)
+            .HasForeignKey(t => t.Id).IsRequired(false)
             .OnDelete(DeleteBehavior.Restrict)
             .IsRequired(false);
 
             modelBuilder.Entity<MyUsers>()
             .HasMany(u => u.AIPrompts)
-            .WithOne(t => t.User)
-            .HasForeignKey(t => t.Id)   
+            .WithOne(t => t.User)  
             .OnDelete(DeleteBehavior.Restrict)
             .IsRequired(false);
 
@@ -41,6 +40,16 @@ namespace WhatsCookTodayApi.Data
             .HasForeignKey(t => t.MyPromptId)
             .OnDelete(DeleteBehavior.Restrict) // uygun olan hangisi bir araştır Restrict vs Cascade 
             .IsRequired(false);
+
+            modelBuilder.Entity<MyPrompt>()
+            .Property(t => t.Id)
+            .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<MyPrompt>()
+            .HasOne(t => t.User)
+            .WithMany(u => u.MyPrompts)
+            .IsRequired(false);
+
         }
     }
 }

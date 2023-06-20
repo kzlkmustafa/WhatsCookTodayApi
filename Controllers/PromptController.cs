@@ -2,7 +2,8 @@
 using WhatsCookTodayApi.MyModels;
 using WhatsCookTodayApi.Services.AIService;
 using WhatsCookTodayApi.Services.Abstracts;
-
+using Microsoft.AspNetCore.Authorization;
+using WhatsCookTodayApi.MyModels.ViewModels;
 
 namespace WhatsCookTodayApi.Controllers
 {
@@ -21,20 +22,40 @@ namespace WhatsCookTodayApi.Controllers
             _answerController = answerController;
         }
 
+        
         [HttpPost("PostAI")]
-        public async Task<IActionResult> PostPrompt(string materials, string Userid)
+        public async Task<IActionResult> PostPrompt([FromBody] MyPromptViewModel model)
         {
-            string AIAnswer = await _AIService.GetAIAnswer(materials);
-            await AddPrompt(materials, Userid);
-            await _answerController.AddAIAnswerPrompt(materials, AIAnswer, Userid);
-            return Ok(AIAnswer);
+            ResponseViewModel responseViewModel = new ResponseViewModel();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    responseViewModel.IsSuccess = false;
+                    responseViewModel.Message = "Bilgileriniz eksik, Lütfen tüm alanları doldurunuz.";
+                    return BadRequest(responseViewModel);
+                }
+                string AIAnswer = await _AIService.GetAIAnswer(model.Materials);
+                await AddPrompt(model.Materials, model.Id);
+                await _answerController.AddAIAnswerPrompt(model.Materials, AIAnswer, model.Id);
+                return Ok(AIAnswer);
+            }
+            catch (Exception ex)
+            {
+                responseViewModel.IsSuccess = false;
+                responseViewModel.Message = ex.Message;
+
+                return BadRequest(responseViewModel);
+            }
+
+            
         }
         //[HttpPost("AddPrompt")]
-        private async Task<IActionResult> AddPrompt(string materials, string UserId)
+        private async Task<IActionResult> AddPrompt(string materials, string? UserId)
         {
             MyPrompt newModel = new MyPrompt();
             newModel.Materials = materials;
-            newModel.Id = UserId;
+            newModel.Id = (UserId != "") ? UserId: null;
             await _myPromtService.Add(newModel);
 
             return Ok();
@@ -46,7 +67,7 @@ namespace WhatsCookTodayApi.Controllers
             var getprompt = await _myPromtService.GetById(id);
             return Ok(getprompt);
         }
-
+        [Authorize]
         [HttpGet("GetAllPrompt")]
         public async Task<IActionResult> GetListAll()
         {
@@ -59,12 +80,14 @@ namespace WhatsCookTodayApi.Controllers
             var getAllforuser = await _myPromtService.GetListAllForUser(UserId);
             return Ok(getAllforuser);
         }
+        [Authorize]
         [HttpDelete("DeletePrompt")]
         public async Task<IActionResult> DeletePrompt(int id)
         {
             await _myPromtService.Delete(id);
             return Ok();
         }
+        [Authorize]
         [HttpPut("UpdatePrompt")]
         public async Task<IActionResult> UpdatePrompt(MyPrompt myPrompt)
         {

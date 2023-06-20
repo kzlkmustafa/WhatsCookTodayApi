@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace WhatsCookTodayApi.MyModels
 {
     public class MyUsers : IdentityUser
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        [StringLength(50)]
+        public string FullName { get; set; }
         public List<AIPrompt> AIPrompts { get; set; }
         public List<MyPrompt> MyPrompts { get; set; }
 

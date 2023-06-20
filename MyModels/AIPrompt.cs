@@ -6,6 +6,7 @@ namespace WhatsCookTodayApi.MyModels
     {
         [Key]
         public int AIPromptId { get; set; }
+        [StringLength(100)]
         public string MyPromptsMaterials { get; set; }
         public string AIPromptRecipe { get; set; }
         public string Id { get; set; }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WhatsCookTodayApi.Data;
 
@@ -11,9 +12,11 @@ using WhatsCookTodayApi.Data;
 namespace WhatsCookTodayApi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230619142031_Addauthentication")]
+    partial class Addauthentication
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,25 +179,20 @@ namespace WhatsCookTodayApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Id")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("MyPromptId")
                         .HasColumnType("int");
 
                     b.Property<string>("MyPromptsMaterials")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AIPromptId");
 
-                    b.HasIndex("MyPromptId");
+                    b.HasIndex("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("MyPromptId");
 
                     b.ToTable("AIPrompts");
                 });
@@ -209,13 +207,11 @@ namespace WhatsCookTodayApi.Migrations
 
                     b.Property<string>("MealOfDayName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MealOfDayPhoto")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MealOfDayRecipe")
                         .IsRequired()
@@ -235,13 +231,11 @@ namespace WhatsCookTodayApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MyPromptId"));
 
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Materials")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MyPromptId");
 
@@ -271,8 +265,7 @@ namespace WhatsCookTodayApi.Migrations
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -383,14 +376,14 @@ namespace WhatsCookTodayApi.Migrations
 
             modelBuilder.Entity("WhatsCookTodayApi.MyModels.AIPrompt", b =>
                 {
+                    b.HasOne("WhatsCookTodayApi.MyModels.MyUsers", "User")
+                        .WithMany("AIPrompts")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("WhatsCookTodayApi.MyModels.MyPrompt", "MyPrompt")
                         .WithMany("AIPrompts")
                         .HasForeignKey("MyPromptId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("WhatsCookTodayApi.MyModels.MyUsers", "User")
-                        .WithMany("AIPrompts")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("MyPrompt");

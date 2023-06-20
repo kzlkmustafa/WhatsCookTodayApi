@@ -6,6 +6,8 @@ namespace WhatsCookTodayApi.MyModels
     {
         [Key]
         public int MyPromptId { get; set; }
+        [StringLength(100)]
+        [Required(ErrorMessage ="materyalleri giriniz")]
         public string Materials { get; set; }
         public string Id { get; set; }
         public MyUsers User { get; set; }

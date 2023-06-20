@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WhatsCookTodayApi.MyModels;
 using WhatsCookTodayApi.Services.Abstracts;
 
 namespace WhatsCookTodayApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class AIAnswerController : ControllerBase
@@ -18,7 +20,7 @@ namespace WhatsCookTodayApi.Controllers
         }
 
         [HttpPost("AddAIAnswer")]
-        public async Task<IActionResult> AddAIAnswerPrompt(string _promptmaterials, string _AIAnswer, string _UserId)
+        public async Task<IActionResult> AddAIAnswerPrompt(string _promptmaterials, string _AIAnswer, string? _UserId)
         {
             AIPrompt aIPrompt = new AIPrompt();
             var AllPrompt = await _myPromptService.GetListAllAsync();
