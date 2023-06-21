@@ -23,18 +23,18 @@ namespace WhatsCookTodayApi.Controllers
         public async Task<IActionResult> AddAIAnswerPrompt(string _promptmaterials, string _AIAnswer, string? _UserId)
         {
             AIPrompt aIPrompt = new AIPrompt();
-            var AllPrompt = await _myPromptService.GetListAllAsync();
-            foreach (var item in AllPrompt)
-            {
-                if (item.Materials == _promptmaterials)
-                {
-                    aIPrompt.MyPromptId = item.MyPromptId;
-                }
-            }
+            //var AllPrompt = await _myPromptService.GetListAllAsync();
+            //foreach (var item in AllPrompt)
+            //{
+            //    if (item.Materials == _promptmaterials)
+            //    {
+            //        aIPrompt.MyPromptId = item.MyPromptId;
+            //    }
+            //}
 
             aIPrompt.MyPromptsMaterials = _promptmaterials;
             aIPrompt.AIPromptRecipe = _AIAnswer;
-            aIPrompt.Id = _UserId;
+            aIPrompt.Id = (_UserId != "") ? _UserId : null;
 
             await _alPromptService.Add(aIPrompt);
             return Ok();

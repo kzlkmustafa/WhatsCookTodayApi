@@ -66,7 +66,8 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "WhatCookTodayApi", Version = "v1" });
 });
-builder.Services.AddOpenAIService(settings => settings.ApiKey = "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");
+//builder.Services.AddOpenAIService(settings => settings.ApiKey = "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");
+builder.Services.AddOpenAIService(settings => settings.ApiKey = builder.Configuration["AIKeys:OpenAIKeys"]);
 builder.Services.AddDbContext<DatabaseContext>(
     opt => opt.UseSqlServer(
             builder.Configuration.GetConnectionString("DataBaseContext")

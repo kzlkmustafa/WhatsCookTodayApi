@@ -89,13 +89,14 @@ namespace WhatsCookTodayApi.Controllers
         }
         [Authorize]
         [HttpPut("UpdatePrompt")]
-        public async Task<IActionResult> UpdatePrompt(MyPrompt myPrompt)
+        public async Task<IActionResult> UpdatePrompt(string _materials, int _PromptId)
         {
-            var updateprompt = await _myPromtService.GetById(myPrompt.MyPromptId);
-            updateprompt.Materials = myPrompt.Materials;
+            var updateprompt = await _myPromtService.GetById(_PromptId);
+            updateprompt.Materials = _materials;
 
             await _myPromtService.Update(updateprompt);
             return Ok();
+
         }
     }
 }
